@@ -1,0 +1,20 @@
+{
+  "name": "tinkerun-vscode",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "billyct <billy_allen@126.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./build.js",
+    "build": "NODE_ENV=production node ./build.js",
+    "lint": "ts-standard"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "@types/vscode": "^1.55.0",
+    "esbuild": "^0.11.10",
+    "ts-standard": "^10.0.0",
+    "typescript": "^4.2.4",
+    "vscode-test": "^1.5.2"
+  }
+}
