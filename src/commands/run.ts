@@ -1,7 +1,7 @@
 import { Uri, workspace } from 'vscode'
 import { TextDecoder } from 'util'
 
-import { terminal } from '../terminal'
+import { TinkerTerminal } from '../terminal'
 import { minifyPHPCode } from '../utils'
 
 /**
@@ -10,11 +10,21 @@ import { minifyPHPCode } from '../utils'
  * @param uri 需要执行的文件 uri
  */
 export async function run (uri: Uri): Promise<void> {
-  const term = await terminal(uri)
-  if (term != null) {
-    const data = await workspace.fs.readFile(uri)
-    const code = new TextDecoder().decode(data)
-    term.sendText(minifyPHPCode(code))
-    term.show()
-  }
+  // 保存文件内容
+  workspace
+    .textDocuments
+    .find(doc => doc.uri.path === uri.path)
+    ?.save()
+
+  // 读取文件内容
+  const data = await workspace.fs.readFile(uri)
+  const code = minifyPHPCode(
+    new TextDecoder().decode(data)
+  )
+
+  // 输入至 terminal 并且显示
+  const terminal = await TinkerTerminal.instance(uri)
+  await terminal.clear()
+  terminal.sendCode(minifyPHPCode(code))
+  terminal.show()
 }

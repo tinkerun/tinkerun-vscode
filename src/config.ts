@@ -23,7 +23,7 @@ export async function config (uri: Uri): Promise<TinkerConfig> {
     }
   } catch (e) {}
 
-  return Promise.resolve({
+  return {
     connections: []
-  })
+  }
 }
