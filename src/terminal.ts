@@ -180,7 +180,7 @@ export class TinkerTerminal {
     return terminal
   }
 
-  static dispose(): void {
+  static dispose (): void {
     if (terminal != null) {
       terminal.dispose()
     }
