@@ -1,7 +1,7 @@
-import { commands, EventEmitter, Pseudoterminal, QuickPickItem, Terminal, Uri, window, workspace } from 'vscode'
+import { commands, EventEmitter, Pseudoterminal, Terminal, Uri, window, workspace } from 'vscode'
 import debounce from 'lodash/debounce'
 
-import { config } from './config'
+import { connection } from './config'
 import { IPty, spawn } from './node-pty'
 import { filterOutput, shell } from './utils'
 
@@ -61,58 +61,38 @@ export class TinkerTerminal {
   }
 
   /**
-   * 获取 config 中的 connection，并且选择
-   *
-   * @private
-   */
-  private async connection (): Promise<TinkerConnection | undefined> {
-    if (this.uri != null) {
-      const { connections } = await config(this.uri)
-
-      if (connections.length <= 1) {
-        // 默认选择第一个
-        return connections[0]
-      }
-
-      // 选择 connection
-      const item = await window.showQuickPick(
-        connections.map((c): QuickPickItem => {
-          return {
-            label: c.name,
-            detail: `$(console) ${c.command}`
-          }
-        }),
-        {
-          placeHolder: 'Pick a Connection to Run'
-        }
-      )
-
-      return connections.find(c => c.name === item?.label)
-    }
-  }
-
-  /**
    * 根据配置，初始化 pty
    * @private
    */
   private async initPty (): Promise<void> {
-    const connection = await this.connection()
+    if (this.uri != null) {
+      const conn = await connection(this.uri)
 
-    if (connection != null) {
-      this.pty = spawn(shell(), [], {
-        name: `Tinkerun: ${connection.name}`,
-        cwd: this.uri?.path,
-        env: process.env
-      })
+      if (conn != null) {
+        this.pty = spawn(shell(), [], {
+          name: `Tinkerun: ${conn.name}`,
+          cwd: this.uri?.path,
+          env: process.env
+        })
 
-      this.pty?.write(`${connection.command}\r`)
-      this.pty?.onData(data => {
-        this.output += data
-        // 只有在有输入，并且在准备输出的结果中包含输入的时候，才执行最终的输出
-        if (this.input !== '' && this.output.includes(this.input)) {
-          this.writeOutput()
-        }
-      })
+        this.pty?.write(`${conn.command}\r`)
+        this.pty?.onData(async data => {
+          this.output += data
+          // 只有在有输入，并且在准备输出的结果中包含输入的时候，才执行最终的输出
+          if (
+            this.input !== '' &&
+            this.output.includes(this.input) &&
+            this.output.includes('>>>')
+          ) {
+            await this.clear()
+            this.writeOutput()
+          }
+        })
+
+        return
+      }
+
+      throw new Error('Tinkerun: No connection selected')
     }
   }
 
@@ -136,18 +116,27 @@ export class TinkerTerminal {
     const pseudo: Pseudoterminal = {
       onDidWrite: this.writeEmitter.event,
       // 关闭的时候，需要清理 pty，writeEmitter，以及内存中的 terminal
-      close: () => {
-        this.writeEmitter.dispose()
-        this.pty?.kill()
-        terminal = undefined
-      },
-      open: () => {}
+      close: this.dispose.bind(this),
+      open: () => {
+        this.writeEmitter.fire('🐰 \x1b[32mTinkerun is Initializing...\x1b[0m')
+        this.writeEmitter.fire('\r\n')
+      }
     }
 
     this.terminal = window.createTerminal({
       name: 'Tinkerun',
       pty: pseudo
     })
+  }
+
+  /**
+   * 清理
+   * @private
+   */
+  private dispose (): void {
+    this.writeEmitter.dispose()
+    this.pty?.kill()
+    terminal = undefined
   }
 
   /**
@@ -189,5 +178,11 @@ export class TinkerTerminal {
     terminal = new TinkerTerminal(uri)
     await terminal.init()
     return terminal
+  }
+
+  static dispose(): void {
+    if (terminal != null) {
+      terminal.dispose()
+    }
   }
 }
