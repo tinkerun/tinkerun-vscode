@@ -33,6 +33,12 @@ export class TinkerTerminal {
   private readonly uri: Uri | undefined
 
   /**
+   * 存储选中的 connection
+   * @private
+   */
+  private conn: TinkerConnection |undefined
+
+  /**
    * 临时存储输入
    * @private
    */
@@ -57,7 +63,26 @@ export class TinkerTerminal {
    */
   private async init (): Promise<void> {
     await this.initPty()
-    this.initTerminal()
+    await this.initTerminal()
+  }
+
+  /**
+   * 返回选择的 connection
+   * @private
+   */
+  private async connection(): Promise<TinkerConnection> {
+    if (this.conn != null) {
+      return this.conn
+    }
+
+    if (this.uri != null) {
+      this.conn = await connection(this.uri)
+      if (this.conn) {
+        return this.conn
+      }
+    }
+
+    throw new Error('Tinkerun: The Uri of the document to running tinker is an error')
   }
 
   /**
@@ -65,35 +90,33 @@ export class TinkerTerminal {
    * @private
    */
   private async initPty (): Promise<void> {
-    if (this.uri != null) {
-      const conn = await connection(this.uri)
+    const conn = await this.connection()
 
-      if (conn != null) {
-        this.pty = spawn(shell(), [], {
-          name: `Tinkerun: ${conn.name}`,
-          cwd: this.uri?.path,
-          env: process.env
-        })
+    if (conn != null) {
+      this.pty = spawn(shell(), [], {
+        name: `Tinkerun: ${conn.name}`,
+        cwd: this.uri?.path,
+        env: process.env
+      })
 
-        this.pty?.write(`${conn.command}\r`)
-        this.pty?.onData(async data => {
-          this.output += data
-          // 只有在有输入，并且在准备输出的结果中包含输入的时候，才执行最终的输出
-          if (
-            this.input !== '' &&
-            this.output.includes(this.input) &&
-            this.output.includes('>>>')
-          ) {
-            await this.clear()
-            this.writeOutput()
-          }
-        })
+      this.pty?.write(`${conn.command}\r`)
+      this.pty?.onData(async data => {
+        this.output += data
+        // 只有在有输入，并且在准备输出的结果中包含输入的时候，才执行最终的输出
+        if (
+          this.input !== '' &&
+          this.output.includes(this.input) &&
+          this.output.includes('>>>')
+        ) {
+          await this.clear()
+          this.writeOutput()
+        }
+      })
 
-        return
-      }
-
-      throw new Error('Tinkerun: No connection selected')
+      return
     }
+
+    throw new Error('Tinkerun: No connection selected')
   }
 
   /**
@@ -112,7 +135,9 @@ export class TinkerTerminal {
    * 初始化 terminal
    * @private
    */
-  private initTerminal (): void {
+  private async initTerminal (): Promise<void> {
+    const conn = await this.connection()
+
     const pseudo: Pseudoterminal = {
       onDidWrite: this.writeEmitter.event,
       // 关闭的时候，需要清理 pty，writeEmitter，以及内存中的 terminal
@@ -124,7 +149,7 @@ export class TinkerTerminal {
     }
 
     this.terminal = window.createTerminal({
-      name: 'Tinkerun',
+      name: `Tinkerun: ${conn.name}`,
       pty: pseudo
     })
   }
