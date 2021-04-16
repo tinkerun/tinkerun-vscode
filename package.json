@@ -74,6 +74,7 @@
     "start": "node ./build.js",
     "build": "NODE_ENV=production node ./build.js",
     "lint": "ts-standard \"./src/**/*.ts\"",
+    "prepackage": "yarn build",
     "package": "vsce package --yarn",
     "predeploy": "yarn build",
     "deploy": "vsce publish --yarn"
