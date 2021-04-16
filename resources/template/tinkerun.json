@@ -2,8 +2,7 @@
   "connections": [
     {
       "name": "dev",
-      "command": "php artisan tinker",
-      "default": true
+      "command": "php artisan tinker"
     }
   ]
 }
