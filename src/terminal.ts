@@ -80,6 +80,8 @@ export class TinkerTerminal {
       if (this.conn) {
         return this.conn
       }
+
+      throw new Error('Tinkerun: No connection selected')
     }
 
     throw new Error('Tinkerun: The Uri of the document to running tinker is an error')
@@ -115,8 +117,6 @@ export class TinkerTerminal {
 
       return
     }
-
-    throw new Error('Tinkerun: No connection selected')
   }
 
   /**
@@ -143,7 +143,10 @@ export class TinkerTerminal {
       // 关闭的时候，需要清理 pty，writeEmitter，以及内存中的 terminal
       close: this.dispose.bind(this),
       open: () => {
-        this.writeEmitter.fire('🐰 \x1b[32mTinkerun is Initializing...\x1b[0m')
+        this.writeEmitter.fire('\x1b[32mTinkerun is Initializing...\x1b[0m')
+        this.writeEmitter.fire('\r\n')
+
+        this.writeEmitter.fire(`\x1b[32mRunning ${conn.command} ...\x1b[0m`)
         this.writeEmitter.fire('\r\n')
       }
     }
