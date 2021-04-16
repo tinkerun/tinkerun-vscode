@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+.tinkerun/
+node_modules/
+src/
+build.js
+tsconfig.json
+.gitignore
+*.lock
+*.vsix

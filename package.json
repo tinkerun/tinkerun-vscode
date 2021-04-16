@@ -1,11 +1,36 @@
 {
   "name": "tinkerun-vscode",
+  "displayName": "Tinkerun",
   "version": "0.0.0",
+  "publisher": "tinkerun",
+  "description": "A Missing way of running Tinker in Visual Studio Code",
+  "keywords": [
+    "laravel",
+    "tinker",
+    "tinkerwell",
+    "tinkerun",
+    "php"
+  ],
   "author": "billyct <billy_allen@126.com>",
   "license": "MIT",
   "main": "./build/extension.js",
+  "icon": "resources/icon.png",
+  "categories": [
+    "Other"
+  ],
   "engines": {
     "vscode": "^1.55.0"
+  },
+  "galleryBanner": {
+    "theme": "dark"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinkerun/tinkerun-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/tinkerun/tinkerun-vscode/issues"
   },
   "activationEvents": [
     "onCommand:tinkerun.install",
@@ -48,7 +73,10 @@
   "scripts": {
     "start": "node ./build.js",
     "build": "NODE_ENV=production node ./build.js",
-    "lint": "ts-standard \"./src/**/*.ts\""
+    "lint": "ts-standard \"./src/**/*.ts\"",
+    "package": "vsce package --yarn",
+    "predeploy": "yarn build",
+    "deploy": "vsce publish --yarn"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.168",
