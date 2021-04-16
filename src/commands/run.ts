@@ -10,6 +10,14 @@ import { minifyPHPCode } from '../utils'
  * @param uri 需要执行的文件 uri
  */
 export async function run (uri: Uri): Promise<void> {
+  if (uri == null) {
+    // 设置 uri 为当前打开文档的 uri
+    const editor = window.activeTextEditor
+    if (editor != null) {
+      uri = editor.document.uri
+    }
+  }
+
   try {
     // 保存文件内容
     workspace

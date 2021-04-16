@@ -15,26 +15,32 @@
     "commands": [
       {
         "command": "tinkerun.install",
-        "title": "Tinkerun: Install"
+        "title": "Tinkerun: Install",
+        "enablement": "workspaceFolderCount >= 1"
       },
       {
         "command": "tinkerun.run",
         "title": "Tinkerun: Run",
-        "icon": "$(debug-start)"
+        "icon": "$(debug-start)",
+        "enablement": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
+      }
+    ],
+    "keybindings":[
+      {
+        "command": "tinkerun.run",
+        "key": "ctrl+r"
       }
     ],
     "menus": {
       "editor/context": [
         {
           "command": "tinkerun.run",
-          "when": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php",
           "group": "navigation"
         }
       ],
       "editor/title/run": [
         {
-          "command": "tinkerun.run",
-          "when": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
+          "command": "tinkerun.run"
         }
       ]
     }
