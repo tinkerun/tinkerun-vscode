@@ -107,7 +107,6 @@ export class TinkerTerminal {
         // 只有在有输入，并且在准备输出的结果中包含输入的时候，才执行最终的输出
         if (
           this.input !== '' &&
-          this.output.includes(this.input) &&
           this.output.includes('>>>')
         ) {
           await this.clear()
