@@ -3,7 +3,9 @@
 .tinkerun/
 node_modules/
 src/
+.github/
 build.js
+jest.config.js
 tsconfig.json
 .gitignore
 *.lock
