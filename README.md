@@ -76,3 +76,7 @@ then when you are running the PHP file under `.tinkerun` folder.  You will Pick 
 ## Ask for help
 
 If the troubleshooting guides did not resolve the issue, please reach out to me by [filing an issue](https://github.com/tinkerun/tinkerun-vscode/issues/new), [starting a GitHub discussion](https://github.com/tinkerun/tinkerun-vscode/discussions/new)
+
+## License
+
+[MIT](./LICENSE)
