@@ -5,16 +5,16 @@ The missing way of running tinker in Visual Studio Code, inspired by [Tinkerwell
 ### Features
 - 🪶 write with typescript only
 - 🖖 never leave VSCode
-- 🚀 also speed in docker, ssh
-- 🥶 simple, you are just creating the PHP files
+- 🚀 speed in docker, ssh
+- 🥶 deadly simple, you are just creating the PHP files
 
-If you always creating awesome [Laravel](https://laravel.com) project with VSCode, you will never miss it.
+If you are creating awesome [Laravel](https://laravel.com) project with VSCode, you will never miss it.
 
 ## Quick Start
 👋 Welcome! Let's start running tinker in Visual Studio Code.
 
 ### Step 1
-[Install the extension](https://tinke.run)
+[Install the extension](https://marketplace.visualstudio.com/items?itemName=tinkerun.tinkerun-vscode)
 
 ### Step 2
 Press `CMD+Shift+p` then select `Tinkerun: install` to active the extension to your [Laravel](https://laravel.com) project.
@@ -24,7 +24,7 @@ Press `CMD+Shift+p` then select `Tinkerun: install` to active the extension to y
 
 The `Tinkerun: install` command will create a `.tinkerun` folder in your project.
 
-```bash
+```
 ├── .tinkerun
 │   ├── inspiring.php // the example code to run
 │   ├── tinkerun.json  // the tinkerun config file
