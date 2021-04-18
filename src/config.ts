@@ -15,7 +15,7 @@ export async function config (uri: Uri): Promise<TinkerConfig> {
     const workspaceFolder = workspace.getWorkspaceFolder(uri)
     if (workspaceFolder != null) {
       const configFileUri = workspaceFolder.uri.with({
-        path: join(workspaceFolder.uri.path, TINKERUN_DIR, TINKERUN_CONFIG_FILE)
+        path: join(workspaceFolder.uri.fsPath, TINKERUN_DIR, TINKERUN_CONFIG_FILE)
       })
 
       const data = await workspace.fs.readFile(configFileUri)

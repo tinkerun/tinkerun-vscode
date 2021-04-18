@@ -24,11 +24,11 @@ export async function install (context: ExtensionContext): Promise<void> {
       }
 
       const sourceUri = context.extensionUri.with({
-        path: join(context.extensionUri.path, 'resources/template')
+        path: join(context.extensionUri.fsPath, 'resources/template')
       })
 
       const targetUri = folder.uri.with({
-        path: join(folder.uri.path, TINKERUN_DIR)
+        path: join(folder.uri.fsPath, TINKERUN_DIR)
       })
 
       await workspace.fs.copy(sourceUri, targetUri, { overwrite: false })

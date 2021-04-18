@@ -103,7 +103,7 @@ export class TinkerTerminal {
     if (conn != null) {
       this.pty = spawn(shell(), [], {
         name: `Tinkerun: ${conn.name}`,
-        cwd: this.uri?.path,
+        cwd: this.uri?.fsPath,
         env: process.env
       })
 
