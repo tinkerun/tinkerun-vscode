@@ -2,6 +2,8 @@
 
 The missing way of running tinker in Visual Studio Code, inspired by [Tinkerwell](https://tinkerwell.app/).
 
+🗒 Looking for the [👉 Tinkerun Desktop App](//tinke.run)?
+
 ### Features
 - 🪶 write with typescript only
 - 🖖 never leave VSCode
