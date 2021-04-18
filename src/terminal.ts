@@ -39,6 +39,12 @@ export class TinkerTerminal {
   private conn: TinkerConnection |undefined
 
   /**
+   * 检查是否已连接
+   * @private
+   */
+  private isConnected = false
+
+  /**
    * 临时存储输入
    * @private
    */
@@ -70,14 +76,14 @@ export class TinkerTerminal {
    * 返回选择的 connection
    * @private
    */
-  private async connection(): Promise<TinkerConnection> {
+  private async connection (): Promise<TinkerConnection> {
     if (this.conn != null) {
       return this.conn
     }
 
     if (this.uri != null) {
       this.conn = await connection(this.uri)
-      if (this.conn) {
+      if (this.conn != null) {
         return this.conn
       }
 
@@ -104,17 +110,22 @@ export class TinkerTerminal {
       this.pty?.write(`${conn.command}\r`)
       this.pty?.onData(async data => {
         this.output += data
-        // 只有在有输入，并且在准备输出的结果中包含输入的时候，才执行最终的输出
-        if (
-          this.input !== '' &&
-          this.output.includes('>>>')
-        ) {
-          await this.clear()
-          this.writeOutput()
+        if (!this.isConnected) {
+          this.writeEmitter.fire(data)
+        }
+        // 如果有 >>> 表示已经连接成功
+        if (this.output.includes('>>>')) {
+          if (!this.isConnected) {
+            this.isConnected = true
+            this.newLine()
+          }
+          // 只有在有输入，才执行最终的输出
+          if (this.input !== '') {
+            await this.clear()
+            this.writeOutput()
+          }
         }
       })
-
-      return
     }
   }
 
@@ -127,8 +138,8 @@ export class TinkerTerminal {
     const result = filterOutput(this.output, this.input)
     this.writeEmitter.fire(result)
     // 解决 cursor 不正确以及清理不正确的问题
-    this.writeEmitter.fire('\r\n')
-  }, 500)
+    this.newLine()
+  }, 200)
 
   /**
    * 初始化 terminal
@@ -143,10 +154,8 @@ export class TinkerTerminal {
       close: this.dispose.bind(this),
       open: () => {
         this.writeEmitter.fire('\x1b[32mTinkerun is Initializing...\x1b[0m')
-        this.writeEmitter.fire('\r\n')
-
-        this.writeEmitter.fire(`\x1b[32mRunning ${conn.command} ...\x1b[0m`)
-        this.writeEmitter.fire('\r\n')
+        this.newLine()
+        this.newLine()
       }
     }
 
@@ -164,6 +173,10 @@ export class TinkerTerminal {
     this.writeEmitter.dispose()
     this.pty?.kill()
     terminal = undefined
+  }
+
+  private newLine (): void {
+    this.writeEmitter.fire('\r\n')
   }
 
   /**
