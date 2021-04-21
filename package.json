@@ -76,10 +76,10 @@
     "build": "NODE_ENV=production node ./build.js",
     "test": "jest",
     "lint": "ts-standard \"./src/**/*.ts\"",
-    "prepackage": "yarn build",
+    "vscode:prepublish": "yarn build",
     "package": "vsce package --yarn",
-    "predeploy": "yarn build",
-    "deploy": "vsce publish --yarn"
+    "deploy:vsce": "vsce publish --yarn",
+    "deploy:ovsx": "ovsx publish --yarn"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",
@@ -89,6 +89,7 @@
     "esbuild": "^0.11.10",
     "esbuild-jest": "^0.5.0",
     "jest": "^26.6.3",
+    "ovsx": "^0.1.0",
     "ts-standard": "^10.0.0",
     "typescript": "^4.2.4",
     "vsce": "^1.87.1",
