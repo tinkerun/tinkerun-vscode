@@ -56,6 +56,12 @@ export class TinkerTerminal {
    */
   private output = ''
 
+  /**
+   * 是否为 terminal 模式
+   * @private
+   */
+  private isTerminalMode = false
+
   constructor (uri: Uri) {
     const folder = workspace.getWorkspaceFolder(uri)
     if (folder != null) {
@@ -109,6 +115,12 @@ export class TinkerTerminal {
 
       this.pty?.write(`${conn.command}\r`)
       this.pty?.onData(async data => {
+        // 如果是 terminal 模式，则直接输出
+        if (this.isTerminalMode) {
+          this.writeEmitter.fire(data)
+          return
+        }
+
         this.output += data
         if (!this.isConnected) {
           this.writeEmitter.fire(data)
@@ -155,7 +167,15 @@ export class TinkerTerminal {
       open: () => {
         this.writeEmitter.fire('\x1b[32mTinkerun is Initializing...\x1b[0m')
         this.newLine()
-        this.newLine()
+      },
+      handleInput: (data: string) => {
+        // 如果有输入则变成 terminal 模式
+        if (!this.isTerminalMode) {
+          this.isTerminalMode = true
+        }
+
+        // 直接输入至 pty
+        this.pty?.write(data)
       }
     }
 
@@ -182,7 +202,15 @@ export class TinkerTerminal {
   /**
    * @param code 需要在 tinker 中执行的代码
    */
-  sendCode (code: string): void {
+  async sendCode (code: string): Promise<void> {
+    if (this.isTerminalMode) {
+      // 取消 terminal 模式
+      this.isTerminalMode = false
+      // 清理 >>>
+      this.newLine()
+      await this.clear()
+    }
+
     // 更新输入内容
     this.input = code
     // 清空输出内容

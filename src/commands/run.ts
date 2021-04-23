@@ -33,7 +33,7 @@ export async function run (uri: Uri): Promise<void> {
 
     // 输入至 terminal 并且显示
     const terminal = await TinkerTerminal.instance(uri)
-    terminal.sendCode(minifyPHPCode(code))
+    await terminal.sendCode(minifyPHPCode(code))
     terminal.show()
   } catch (e) {
     TinkerTerminal.dispose()
