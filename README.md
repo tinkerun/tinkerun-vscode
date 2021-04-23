@@ -74,6 +74,15 @@ then when you are running the PHP file under `.tinkerun` folder.  You will Pick 
 
 ![pick\_a\_connection](https://user-images.githubusercontent.com/1612364/115065632-f26e0b00-9f20-11eb-989f-05496136ae43.gif)
 
+## Troubleshooting
+
+### How to change the default shortcut to run code
+
+The default shortcut is `CTRL+r`, also you can bind yours:
+
+1. open `Code -> Preferences -> Keyboard Shortcuts`
+2. search `tinkerun.run` command
+3. bind your favorite shortcut
 
 ## Ask for help
 
