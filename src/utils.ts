@@ -1,5 +1,3 @@
-import compact from 'lodash/compact'
-import join from 'lodash/join'
 import escapeRegExp from 'lodash/escapeRegExp'
 import last from 'lodash/last'
 
@@ -10,19 +8,12 @@ import last from 'lodash/last'
  * @return 处理为一行的代码
  */
 export function minifyPHPCode (code: string): string {
-  // 移除 php tag
-  code = code.replace(/^<\?(php)?/, '')
-  code = code.replace(/\?>$/, '')
-
-  // 删除多行和内嵌注释
-  code = code.replace(/\/\*(.|\r|\n)*?\*\//g, '')
-  // 删除单行注释
-  code = code.replace(/(\/\/|#).*/g, '')
-  // 合并成一行代码
-  return join(compact(
-    code.split('\n').map(c => c.trim())
-    // @warning 合并字符串需要一个空格，如果是多行字符串，当需要执行多行 SQL 的时候
-  ), ' ')
+  return code
+    .replace(/^<\?(php)?/, '') // 移除 php tag
+    .replace(/\?>$/, '')
+    .replace(/^\s*/, '')
+    .replace(/\s*$/, '')
+    .replace(/\n/g, '\\\n')
 }
 
 /**
@@ -41,6 +32,11 @@ export function filterOutput (output: string, input = ''): string {
     // 替换 \r\r\n
     const regRRN = new RegExp(escapeRegExp('\r\r\n'), 'g')
     output = output.replace(regRRN, '')
+
+    // 替换换行的前缀
+    // https://github.com/bobthecow/psysh/blob/main/src/Shell.php#L54
+    const regBuff = new RegExp(escapeRegExp('\\\r\n... '), 'g')
+    output = output.replace(regBuff, '\\\n')
 
     // 如果是点击 run，则有 input，则需要处理将 input 过滤掉，来得到 output
     const regInput = new RegExp(`${escapeRegExp(input)}\r\n`)

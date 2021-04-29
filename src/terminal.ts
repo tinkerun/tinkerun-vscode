@@ -126,7 +126,7 @@ export class TinkerTerminal {
           this.writeEmitter.fire(data)
         }
         // 如果有 >>> 表示已经连接成功
-        if (this.output.includes('>>>')) {
+        if (this.output.includes('>>> ')) {
           if (!this.isConnected) {
             this.isConnected = true
             this.newLine()
