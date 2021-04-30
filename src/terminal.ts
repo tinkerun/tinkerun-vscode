@@ -76,6 +76,7 @@ export class TinkerTerminal {
   private async init (): Promise<void> {
     await this.initPty()
     await this.initTerminal()
+    TinkerTerminal.setIsConnectedContext(true)
   }
 
   /**
@@ -193,6 +194,7 @@ export class TinkerTerminal {
     this.writeEmitter.dispose()
     this.pty?.kill()
     terminal = undefined
+    TinkerTerminal.setIsConnectedContext(false)
   }
 
   private newLine (): void {
@@ -235,6 +237,11 @@ export class TinkerTerminal {
     await commands.executeCommand('workbench.action.terminal.clear')
   }
 
+  async kill (): Promise<void> {
+    this.terminal?.show()
+    await commands.executeCommand('workbench.action.terminal.kill')
+  }
+
   /**
    * @param uri 触发执行按钮的文件地址
    */
@@ -246,6 +253,15 @@ export class TinkerTerminal {
     terminal = new TinkerTerminal(uri)
     await terminal.init()
     return terminal
+  }
+
+  static async reconnect (uri: Uri): Promise<TinkerTerminal> {
+    await terminal?.kill()
+    return TinkerTerminal.instance(uri)
+  }
+
+  static setIsConnectedContext(connected: boolean): void {
+    commands.executeCommand('setContext', 'tinkerun.context.isConnected', connected)
   }
 
   static dispose (): void {

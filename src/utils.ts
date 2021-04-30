@@ -1,5 +1,6 @@
 import escapeRegExp from 'lodash/escapeRegExp'
 import last from 'lodash/last'
+import { Uri, window } from 'vscode'
 
 /**
  * 删除注释、PHP 标签，并且把代码变成一行
@@ -74,4 +75,20 @@ export function shell (): string {
   }
 
   return env.SHELL ?? '/bin/sh'
+}
+
+/**
+ * 如果 uri 为 null 就读取当前打开文档的 uri
+ * @param uri 默认传入的 uri
+ */
+export function activeUri (uri: Uri): Uri {
+  if (uri == null) {
+    // 设置 uri 为当前打开文档的 uri
+    const editor = window.activeTextEditor
+    if (editor != null) {
+      uri = editor.document.uri
+    }
+  }
+
+  return uri
 }

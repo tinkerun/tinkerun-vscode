@@ -2,6 +2,7 @@ import { commands, ExtensionContext } from 'vscode'
 
 import { install } from './commands/install'
 import { run } from './commands/run'
+import { reconnect } from './commands/reconnect'
 
 export function activate (context: ExtensionContext): void {
   context.subscriptions.push(
@@ -10,6 +11,10 @@ export function activate (context: ExtensionContext): void {
 
   context.subscriptions.push(
     commands.registerCommand('tinkerun.run', run)
+  )
+
+  context.subscriptions.push(
+    commands.registerCommand('tinkerun.reconnect', reconnect)
   )
 }
 

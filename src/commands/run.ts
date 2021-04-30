@@ -2,7 +2,7 @@ import { Uri, window, workspace } from 'vscode'
 import { TextDecoder } from 'util'
 
 import { TinkerTerminal } from '../terminal'
-import { minifyPHPCode } from '../utils'
+import { minifyPHPCode, activeUri } from '../utils'
 
 /**
  * 执行 uri 文件的代码
@@ -10,13 +10,7 @@ import { minifyPHPCode } from '../utils'
  * @param uri 需要执行的文件 uri
  */
 export async function run (uri: Uri): Promise<void> {
-  if (uri == null) {
-    // 设置 uri 为当前打开文档的 uri
-    const editor = window.activeTextEditor
-    if (editor != null) {
-      uri = editor.document.uri
-    }
-  }
+  uri = activeUri(uri)
 
   try {
     // 保存文件内容

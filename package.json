@@ -49,6 +49,11 @@
         "title": "Tinkerun: Run",
         "icon": "$(debug-start)",
         "enablement": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
+      },
+      {
+        "command": "tinkerun.reconnect",
+        "title": "Tinkerun: Reconnect",
+        "enablement": "tinkerun.context.isConnected"
       }
     ],
     "keybindings": [
@@ -61,6 +66,10 @@
       "editor/context": [
         {
           "command": "tinkerun.run",
+          "group": "navigation"
+        },
+        {
+          "command": "tinkerun.reconnect",
           "group": "navigation"
         }
       ],
