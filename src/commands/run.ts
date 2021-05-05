@@ -2,7 +2,7 @@ import { Uri, window, workspace } from 'vscode'
 import { TextDecoder } from 'util'
 
 import { TinkerTerminal } from '../terminal'
-import { minifyPHPCode } from '../utils'
+import {activeUri, minifyPHPCode, saveDocument} from '../utils'
 
 /**
  * 执行 uri 文件的代码
@@ -10,20 +10,9 @@ import { minifyPHPCode } from '../utils'
  * @param uri 需要执行的文件 uri
  */
 export async function run (uri: Uri): Promise<void> {
-  if (uri == null) {
-    // 设置 uri 为当前打开文档的 uri
-    const editor = window.activeTextEditor
-    if (editor != null) {
-      uri = editor.document.uri
-    }
-  }
-
   try {
-    // 保存文件内容
-    workspace
-      .textDocuments
-      .find(doc => doc.uri.path === uri.path)
-      ?.save()
+    uri = activeUri(uri)
+    saveDocument(uri)
 
     // 读取文件内容
     const data = await workspace.fs.readFile(uri)

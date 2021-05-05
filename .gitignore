@@ -3,3 +3,5 @@
 /build
 /.tinkerun
 *.vsix
+
+yarn-error.log

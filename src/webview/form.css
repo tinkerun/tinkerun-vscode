@@ -1,0 +1,94 @@
+@import "./base.css";
+
+:root {
+    --vscode-settings-textInputBorder: transparent;
+}
+
+html {
+    font-family: var(--vscode-font-family);
+    font-size: var(--vscode-font-size);
+}
+
+button:focus {
+    outline: none;
+}
+
+button:disabled {
+    opacity: .7;
+}
+
+input {
+    background-color: var(--vscode-settings-textInputBackground);
+    color: var(--vscode-settings-textInputForeground);
+    border-color: var(--vscode-settings-textInputBorder);
+}
+
+input:focus {
+    outline-color: var(--vscode-focusBorder);
+}
+
+.btn {
+    border-radius: 0;
+    padding: 0 1rem;
+    line-height: 2;
+}
+
+.btn-primary {
+    color: var(--vscode-button-foreground);
+    background-color: var(--vscode-button-background);
+}
+
+.btn-primary:focus,
+.btn-primary:enabled:hover {
+    background-color: var(--vscode-button-hoverBackground);
+}
+
+.btn-secondary {
+    color: var(--vscode-button-secondaryForeground);
+    background-color: var(--vscode-button-secondaryBackground);
+}
+
+.btn-secondary:focus,
+.btn-secondary:enabled:hover {
+    background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.field {
+    border: 1px solid transparent;
+    padding: 1rem;
+}
+
+.field:hover {
+    background-color: var(--vscode-notebook-rowHoverBackground);
+}
+
+.field:focus,
+.field:focus-within {
+    border-color: var(--vscode-panel-border);
+    background-color: var(--vscode-settings-focusedRowBackground);
+}
+
+.field-label {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: bold;
+    color: var(--vscode-settings-headerForeground);
+}
+
+.field-description {
+    color: var(--vscode-descriptionForeground);
+}
+
+.field-input {
+    border: 1px solid;
+    padding: 0 0.375rem;
+    outline: none;
+    display: block;
+    margin-top: 0.5rem;
+    width: 100%;
+    line-height: 2;
+}
+
+.section {
+    padding: 1rem;
+}

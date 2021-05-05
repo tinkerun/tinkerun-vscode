@@ -35,7 +35,8 @@
   },
   "activationEvents": [
     "onCommand:tinkerun.install",
-    "onCommand:tinkerun.run"
+    "onCommand:tinkerun.run",
+    "onCommand:tinkerun.form"
   ],
   "contributes": {
     "commands": [
@@ -48,6 +49,12 @@
         "command": "tinkerun.run",
         "title": "Tinkerun: Run",
         "icon": "$(debug-start)",
+        "enablement": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
+      },
+      {
+        "command": "tinkerun.form",
+        "title": "Tinkerun: Form",
+        "icon": "$(editor-layout)",
         "enablement": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
       }
     ],
@@ -62,11 +69,21 @@
         {
           "command": "tinkerun.run",
           "group": "navigation"
+        },
+        {
+          "command": "tinkerun.form",
+          "group": "navigation"
         }
       ],
       "editor/title/run": [
         {
           "command": "tinkerun.run"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "tinkerun.form",
+          "group": "navigation"
         }
       ]
     }
@@ -86,6 +103,7 @@
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.37",
     "@types/vscode": "^1.55.0",
+    "alpinejs": "^2.8.2",
     "esbuild": "^0.11.10",
     "esbuild-jest": "^0.5.0",
     "jest": "^26.6.3",
@@ -96,6 +114,7 @@
     "vscode-test": "^1.5.2"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "php-form": "^0.0.1"
   }
 }
