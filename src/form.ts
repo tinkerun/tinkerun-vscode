@@ -1,10 +1,10 @@
-import { Uri, ViewColumn, WebviewPanel, window, workspace } from 'vscode'
+import { Disposable, Uri, ViewColumn, WebviewPanel, window, workspace } from 'vscode'
 import { basename } from 'path'
-import {instance, PHPForm} from 'php-form'
+import { instance, PHPForm } from 'php-form'
 
 import { Context } from './context'
-import {TextDecoder} from 'util'
-import {TinkerTerminal} from './terminal'
+import { TextDecoder } from 'util'
+import { TinkerTerminal } from './terminal'
 
 export class Form {
   private static form: Form | undefined
@@ -26,11 +26,13 @@ export class Form {
       }
     )
 
+    this.setIconPath()
+    const webviewMessageHandler = this.setWebviewMessageHandler()
+
     this.panel.onDidDispose(() => {
+      webviewMessageHandler.dispose()
       Form.form = undefined
     })
-
-    this.setIconPath()
   }
 
   private setIconPath (): void {
@@ -46,26 +48,30 @@ export class Form {
     }
   }
 
+  private setWebviewMessageHandler (): Disposable {
+    return this.panel.webview.onDidReceiveMessage(async message => {
+      if (message.command === 'run') {
+        try {
+          const phpForm = await this.phpForm()
+          const code = await phpForm.stringify(message.data)
+          await TinkerTerminal.runCode(code, this.uri)
+        } catch (e) {
+          await window.showInformationMessage(e.message)
+        }
+      }
+    })
+  }
+
   private title (): string {
     return `Form: ${basename(this.uri.fsPath)}`
   }
 
-  async phpForm(): Promise<PHPForm> {
+  async phpForm (): Promise<PHPForm> {
     if (this._phpForm == null) {
       this._phpForm = await instance()
     }
 
     return this._phpForm
-  }
-
-  async runCode (code: string): Promise<void> {
-    try {
-      const terminal = await TinkerTerminal.instance(this.uri)
-      await terminal.sendCode(code)
-      terminal.show()
-    } catch (e) {
-      TinkerTerminal.dispose()
-    }
   }
 
   async update (uri: Uri): Promise<void> {
@@ -74,20 +80,20 @@ export class Form {
     this.panel.webview.html = await this.webviewContent()
   }
 
-  private extensionUri(path: string): Uri | undefined {
+  private extensionUrl (path: string): string {
     const context = Context.get()
     if (context != null) {
-      return this.panel.webview.asWebviewUri(Uri.joinPath(context.extensionUri, path))
+      return this.panel.webview.asWebviewUri(Uri.joinPath(context.extensionUri, path)).toString()
     }
 
-    return undefined
+    return ''
   }
 
   private async webviewContent (): Promise<string> {
     const data = await workspace.fs.readFile(this.uri)
     const code = new TextDecoder().decode(data)
     const phpForm = await this.phpForm()
-    const fields = await phpForm.parseCode(code)
+    const fields = await phpForm.parse(code)
 
     return `
 <!DOCTYPE html>
@@ -96,10 +102,10 @@ export class Form {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tinkerun Form</title>
-    <link href="${this.extensionUri('build/webview/form.css')}" rel="stylesheet"/>
+    <link href="${this.extensionUrl('build/webview/form.css')}" rel="stylesheet"/>
 </head>
 <body>
-    <div x-data="formData()">
+    <main x-data="formData">
       <template x-for="(field, index) in fields" :key="index">
         <div class="field">
           <label class="field-label" x-text="field.label || field.name"></label>
@@ -107,19 +113,35 @@ export class Form {
             <p class="field-description" x-text="field.description" ></p>
           </template>
           
-          <input class="field-input" x-model.debounce="field.value"/>
+          <input
+            :name="field.name"
+            class="field-input" 
+            x-model.debounce="field.value"
+          />
         </div>
       </template>
-    </div>
-    
-    <div class="section">
-        <button class="btn btn-primary">Run</button>
-    </div>
+      
+      <div class="section">
+        <button class="btn btn-primary" @click="run()">Run</button>
+      </div>
+    </main>
    
+    <script src="${this.extensionUrl('build/webview/form.js')}"></script>
     <script>
-       const fields = ${JSON.stringify(fields)};
+       const vscode = acquireVsCodeApi()
+       
+       const formData = {
+          fields: ${JSON.stringify(fields)},
+       }
+       
+       function run() {
+         vscode.postMessage({
+            command: 'run',
+            data: formData.fields
+         })
+       }
+      
     </script>
-    <script src="${this.extensionUri('build/webview/form.js')}"></script>
 </body>
 </html>
     `

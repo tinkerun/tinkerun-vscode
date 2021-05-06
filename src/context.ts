@@ -1,13 +1,13 @@
 import { ExtensionContext } from 'vscode'
 
-export class Context {
-  private static context: ExtensionContext | undefined
+let extensionContext: ExtensionContext | undefined
 
-  static set (context: ExtensionContext): void {
-    Context.context = context
-  }
+export const Context = {
+  set (context: ExtensionContext) {
+    extensionContext = context
+  },
 
-  static get (): ExtensionContext | undefined {
-    return Context.context
+  get () {
+    return extensionContext
   }
 }

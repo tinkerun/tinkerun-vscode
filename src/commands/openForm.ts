@@ -1,9 +1,9 @@
 import { Uri, window } from 'vscode'
 
-import {activeUri, saveDocument} from '../utils'
+import { activeUri, saveDocument } from '../utils'
 import { Form } from '../form'
 
-export async function form (uri: Uri): Promise<void> {
+export async function openForm (uri: Uri): Promise<void> {
   try {
     uri = activeUri(uri)
     saveDocument(uri)

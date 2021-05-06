@@ -1,6 +1,6 @@
 import escapeRegExp from 'lodash/escapeRegExp'
 import last from 'lodash/last'
-import {Uri, window, workspace} from 'vscode'
+import { Uri, window, workspace } from 'vscode'
 
 /**
  * 删除注释、PHP 标签，并且把代码变成一行
@@ -97,7 +97,7 @@ export function activeUri (uri: Uri): Uri {
  * 保存文件内容
  * @param uri 需要保存的文档 uri
  */
-export function saveDocument(uri: Uri): void {
+export function saveDocument (uri: Uri): void {
   workspace
     .textDocuments
     .find(doc => doc.uri.path === uri.path)
