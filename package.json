@@ -71,7 +71,7 @@
           "group": "navigation"
         },
         {
-          "command": "tinkerun.form",
+          "command": "tinkerun.openForm",
           "group": "navigation"
         }
       ],
