@@ -106,19 +106,42 @@ export class Form {
 </head>
 <body>
     <main x-data="formData">
-      <template x-for="(field, index) in fields" :key="index">
+      <template x-for="(field, index) in fields" :key="'fields_' + index">
         <div class="field">
           <label class="field-label" x-text="field.label || field.name"></label>
           <template x-if="field.description">
             <p class="field-description" x-text="field.description" ></p>
           </template>
+         
+          <template x-if="field.type !== 'select'">
+            <input
+              :name="field.name"
+              class="field-input" 
+              :type="field.type || 'text'"
+              x-model.debounce="field.value"
+            />
+          </template>
           
-          <input
-            :name="field.name"
-            class="field-input" 
-            :type="field.type || 'text'"
-            x-model.debounce="field.value"
-          />
+          <template x-if="field.type === 'select'">
+            <div class="field-select-container">
+              <select x-model="field.value" class="field-select">
+                <template 
+                  x-for="(option, index) in field.options" 
+                  :key="'options_' + index + option.value"
+                >
+                  <option 
+                    :value="option.value"
+                    x-text="option.label" 
+                    :selected="field.value === option.value"
+                  ></option>
+                </template>
+              </select>
+              <svg class="field-select-arrow" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M7.976 10.072l4.357-4.357.62.618L8.284 11h-.618L3 6.333l.619-.618 4.357 4.357z"/>
+              </svg>
+            </div>
+          </template>
+          
         </div>
       </template>
       

@@ -20,6 +20,8 @@ input {
     background-color: var(--vscode-settings-textInputBackground);
     color: var(--vscode-settings-textInputForeground);
     border-color: var(--vscode-settings-textInputBorder);
+    border-width: 1px;
+    border-style: solid;
 }
 
 input::-webkit-outer-spin-button,
@@ -28,15 +30,25 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
+select:focus,
 input:focus {
     outline-color: var(--vscode-focusBorder);
 }
 
+select {
+    -webkit-appearance: none;
+    border-width: 1px;
+    border-style: solid;
+    background-color: var(--vscode-settings-dropdownBackground);
+    color: var(--vscode-settings-dropdownForeground);
+    border-color: var(--vscode-settings-dropdownBorder);
+}
+
 .btn {
     border-radius: 0;
-    padding: 4px;
+    padding: 2px 14px;
     text-align: center;
-    min-width: 50px;
+    width: auto;
 }
 
 .btn-primary {
@@ -83,15 +95,29 @@ input:focus {
     color: var(--vscode-descriptionForeground);
 }
 
+.field-select,
 .field-input {
-    border-width: 1px;
-    border-style: solid;
     outline: none;
     display: block;
     margin-top: 0.5rem;
     width: 100%;
     padding: 4px;
     box-sizing: border-box;
+}
+
+.field-select-container {
+    position: relative;
+}
+
+.field-select-arrow {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 6px;
+    margin: auto;
+    pointer-events: none;
 }
 
 .section {
