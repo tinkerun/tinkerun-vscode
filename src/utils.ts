@@ -103,3 +103,11 @@ export function saveDocument (uri: Uri): void {
     .find(doc => doc.uri.path === uri.path)
     ?.save()
 }
+
+/**
+ * 是否为 .tinkerun 目录下的 php 文件
+ * @param uri
+ */
+export function isTinkerunPHP (uri: Uri): boolean {
+  return /\.tinkerun.+\.php$/.test(uri.path)
+}

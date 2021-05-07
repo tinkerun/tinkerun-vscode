@@ -1,8 +1,10 @@
-import { commands, ExtensionContext, window } from 'vscode'
+import { commands, ExtensionContext, window, workspace } from 'vscode'
 
 import { install } from './commands/install'
 import { run } from './commands/run'
 import { openForm } from './commands/openForm'
+import { onDidSaveTextDocument } from './events/onDidSaveTextDocument'
+import { onDidChangeVisibleTextEditors } from './events/onDidChangeVisibleTextEditors'
 import { Context } from './context'
 import { Form } from './form'
 
@@ -22,16 +24,11 @@ export function activate (context: ExtensionContext): void {
   )
 
   context.subscriptions.push(
-    window.onDidChangeVisibleTextEditors(async editors => {
-      if (Form.exists() && editors.length > 0) {
-        const uri = editors[0].document.uri
+    workspace.onDidSaveTextDocument(onDidSaveTextDocument)
+  )
 
-        if (/\.tinkerun.+\.php$/.test(uri.path)) {
-          const form = Form.instance(uri)
-          await form.update(uri)
-        }
-      }
-    })
+  context.subscriptions.push(
+    window.onDidChangeVisibleTextEditors(onDidChangeVisibleTextEditors)
   )
 }
 
