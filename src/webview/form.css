@@ -95,11 +95,16 @@ select {
     color: var(--vscode-descriptionForeground);
 }
 
+.field-checkbox-container,
+.field-select-container,
+.field-input-container {
+    margin-top: 0.5rem;
+}
+
 .field-select,
 .field-input {
     outline: none;
     display: block;
-    margin-top: 0.5rem;
     width: 100%;
     padding: 4px;
     box-sizing: border-box;
@@ -118,6 +123,26 @@ select {
     right: 6px;
     margin: auto;
     pointer-events: none;
+}
+
+.field-checkbox-container {
+    display: flex;
+    user-select: none;
+    cursor: pointer;
+    color: var(--vscode-descriptionForeground);
+}
+
+.field-checkbox {
+    flex-shrink: 0;
+    height: 18px;
+    width: 18px;
+    background-color: var(--vscode-settings-checkboxBackground);
+    border: 1px solid var(--vscode-settings-checkboxBorder);
+    border-radius: 3px;
+    margin-right: 9px;
+    margin-left: 0;
+    padding: 0;
+    color: var(--vscode-settings-checkboxForeground)
 }
 
 .section {

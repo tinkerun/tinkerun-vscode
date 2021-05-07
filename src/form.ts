@@ -108,18 +108,35 @@ export class Form {
     <main x-data="formData">
       <template x-for="(field, index) in fields" :key="'fields_' + index">
         <div class="field">
-          <label class="field-label" x-text="field.label || field.name"></label>
-          <template x-if="field.description">
+          <div class="field-label" x-text="field.label || field.name"></div>
+          <template x-if="field.description && field.type !== 'checkbox'">
             <p class="field-description" x-text="field.description" ></p>
           </template>
+          
+          <template x-if="field.type === 'checkbox'">
+            <div class="field-checkbox-container" @click="field.value === 'true' ? field.value = 'false' : field.value = 'true' ">
+              <div class="field-checkbox">
+                <template x-if="field.value === 'true'">
+                  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M14.431 3.323l-8.47 10-.79-.036-3.35-4.77.818-.574 2.978 4.24 8.051-9.506.764.646z"/>
+                  </svg>
+                </template>
+              </div>
+              <template x-if="field.description">
+                <span class="field-description" x-text="field.description"></span>
+              </template>
+            </div>
+          </template>
          
-          <template x-if="field.type !== 'select'">
-            <input
-              :name="field.name"
-              class="field-input" 
-              :type="field.type || 'text'"
-              x-model.debounce="field.value"
-            />
+          <template x-if="field.type !== 'select' && field.type !== 'checkbox'">
+            <div class="field-input-container">
+              <input
+                :name="field.name"
+                class="field-input" 
+                :type="field.type || 'text'"
+                x-model.debounce="field.value"
+              />
+            </div>
           </template>
           
           <template x-if="field.type === 'select'">
