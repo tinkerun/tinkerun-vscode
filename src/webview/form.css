@@ -101,6 +101,12 @@ select {
     margin-top: 0.5rem;
 }
 
+.field-input-container {
+    min-width: 200px;
+    width: auto;
+    display: inline-block;
+}
+
 .field-select,
 .field-input {
     outline: none;
@@ -112,6 +118,7 @@ select {
 
 .field-select-container {
     position: relative;
+    width: 320px;
 }
 
 .field-select-arrow {
