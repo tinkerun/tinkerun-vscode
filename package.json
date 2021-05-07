@@ -39,6 +39,18 @@
     "onCommand:tinkerun.openForm"
   ],
   "contributes": {
+    "configuration":[
+      {
+        "title": "Tinkerun",
+        "properties": {
+          "tinkerun.form.prefix": {
+            "type": "string",
+            "default": "form_",
+            "description": "Specifies the variable prefix of your code for Tinkerun's Form Mode"
+          }
+        }
+      }
+    ],
     "commands": [
       {
         "command": "tinkerun.install",
