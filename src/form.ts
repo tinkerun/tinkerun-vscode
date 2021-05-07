@@ -116,6 +116,7 @@ export class Form {
           <input
             :name="field.name"
             class="field-input" 
+            :type="field.type || 'text'"
             x-model.debounce="field.value"
           />
         </div>

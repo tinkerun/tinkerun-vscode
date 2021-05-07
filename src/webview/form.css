@@ -21,6 +21,12 @@ input {
     border-color: var(--vscode-settings-textInputBorder);
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 input:focus {
     outline-color: var(--vscode-focusBorder);
 }
