@@ -10,7 +10,7 @@ describe.each([
   ['----->>>input\r\nex \bpected\r\n \bexpected\r\n>>>', 'input', 'expected\r\nexpected'],
   ['----->>>inputinput\r\nex \bpected\r\n \bexpected\r\n>>>', 'input', 'expected\r\nexpected'],
   ['----->>>inputi\r\r\nnput\r\nex \bpected\r\n \bexpected\r\n>>>', 'input', 'expected\r\nexpected'],
-  ['----->>>inputi\r\r\nnput\r\nex \bpected\\\r\n...  \bexpected\r\n>>>', 'input', 'expected\\\nexpected'],
+  ['----->>>inputi\r\r\nnput\r\nex \bpected\\\r\n...  \bexpected\r\n>>>', 'input', 'expected\\\nexpected']
 ])('test filterOutput(%s, %s)', (output, input, expected) => {
   test(`should be ${expected}`, () => {
     expect(filterOutput(output, input)).toBe(expected)
@@ -31,7 +31,7 @@ that spans over multiple
 lines
 */
     `,
-    `// single line\\\n//////single line\\\n# single line\\\n##### single line\\\necho 3+/*inline*/2+3//some comment\\\n/*\\\nThis is a multiple-lines comment block\\\nthat spans over multiple\\\nlines\\\n*/`
+    '// single line\\\n//////single line\\\n# single line\\\n##### single line\\\necho 3+/*inline*/2+3//some comment\\\n/*\\\nThis is a multiple-lines comment block\\\nthat spans over multiple\\\nlines\\\n*/'
   ],
   [
     `

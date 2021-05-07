@@ -2,7 +2,8 @@ const { build } = require('esbuild')
 
 build({
   entryPoints: [
-    './src/extension.ts'
+    './src/extension.ts',
+    './src/webview/form.ts',
   ],
   platform: 'node',
   external: ['vscode'],

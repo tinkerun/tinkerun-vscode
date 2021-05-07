@@ -1,5 +1,6 @@
 import escapeRegExp from 'lodash/escapeRegExp'
 import last from 'lodash/last'
+import { Uri, window, workspace } from 'vscode'
 
 /**
  * 删除注释、PHP 标签，并且把代码变成一行
@@ -74,4 +75,39 @@ export function shell (): string {
   }
 
   return env.SHELL ?? '/bin/sh'
+}
+
+/**
+ * 返回当前 active 的 uri
+ * @param uri
+ */
+export function activeUri (uri: Uri): Uri {
+  if (uri == null) {
+    // 设置 uri 为当前打开文档的 uri
+    const editor = window.activeTextEditor
+    if (editor != null) {
+      uri = editor.document.uri
+    }
+  }
+
+  return uri
+}
+
+/**
+ * 保存文件内容
+ * @param uri 需要保存的文档 uri
+ */
+export function saveDocument (uri: Uri): void {
+  workspace
+    .textDocuments
+    .find(doc => doc.uri.path === uri.path)
+    ?.save()
+}
+
+/**
+ * 是否为 .tinkerun 目录下的 php 文件
+ * @param uri
+ */
+export function isTinkerunPHP (uri: Uri): boolean {
+  return /\.tinkerun.+\.php$/.test(uri.path)
 }

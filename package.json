@@ -35,9 +35,22 @@
   },
   "activationEvents": [
     "onCommand:tinkerun.install",
-    "onCommand:tinkerun.run"
+    "onCommand:tinkerun.run",
+    "onCommand:tinkerun.openForm"
   ],
   "contributes": {
+    "configuration":[
+      {
+        "title": "Tinkerun",
+        "properties": {
+          "tinkerun.form.prefix": {
+            "type": "string",
+            "default": "form_",
+            "description": "Specifies the variable prefix of your code for Tinkerun's Form Mode"
+          }
+        }
+      }
+    ],
     "commands": [
       {
         "command": "tinkerun.install",
@@ -48,6 +61,12 @@
         "command": "tinkerun.run",
         "title": "Tinkerun: Run",
         "icon": "$(debug-start)",
+        "enablement": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
+      },
+      {
+        "command": "tinkerun.openForm",
+        "title": "Tinkerun: Form",
+        "icon": "$(preview)",
         "enablement": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
       }
     ],
@@ -61,12 +80,26 @@
       "editor/context": [
         {
           "command": "tinkerun.run",
-          "group": "navigation"
+          "group": "navigation",
+          "when": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
+        },
+        {
+          "command": "tinkerun.openForm",
+          "group": "navigation",
+          "when": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
         }
       ],
       "editor/title/run": [
         {
-          "command": "tinkerun.run"
+          "command": "tinkerun.run",
+          "when": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "tinkerun.openForm",
+          "group": "navigation",
+          "when": "resourceDirname =~ /\\.tinkerun/ && resourceLangId == php"
         }
       ]
     }
@@ -86,16 +119,19 @@
     "@types/lodash": "^4.14.168",
     "@types/node": "^14.14.37",
     "@types/vscode": "^1.55.0",
+    "alpinejs": "^2.8.2",
     "esbuild": "^0.11.10",
     "esbuild-jest": "^0.5.0",
     "jest": "^26.6.3",
     "ovsx": "^0.1.0",
+    "tailwindcss": "^2.1.2",
     "ts-standard": "^10.0.0",
     "typescript": "^4.2.4",
     "vsce": "^1.87.1",
     "vscode-test": "^1.5.2"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "php-form": "^0.0.4"
   }
 }

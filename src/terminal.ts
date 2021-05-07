@@ -3,7 +3,7 @@ import debounce from 'lodash/debounce'
 
 import { connection } from './config'
 import { IPty, spawn } from './node-pty'
-import { filterOutput, shell } from './utils'
+import { filterOutput, minifyPHPCode, shell } from './utils'
 
 let terminal: TinkerTerminal | undefined
 
@@ -251,6 +251,17 @@ export class TinkerTerminal {
   static dispose (): void {
     if (terminal != null) {
       terminal.dispose()
+    }
+  }
+
+  static async runCode (code: string, uri: Uri): Promise<void> {
+    try {
+      const terminal = await TinkerTerminal.instance(uri)
+      await terminal.sendCode(minifyPHPCode(code))
+      terminal.show()
+    } catch (e) {
+      TinkerTerminal.dispose()
+      throw e
     }
   }
 }

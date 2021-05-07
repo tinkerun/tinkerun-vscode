@@ -1,14 +1,13 @@
-import { ExtensionContext, window, workspace, WorkspaceFolder } from 'vscode'
+import { window, workspace, WorkspaceFolder } from 'vscode'
 import { join } from 'path'
 
 import { TINKERUN_DIR } from '../constants'
+import { Context } from '../context'
 
 /**
  * 用于加载 .tinkerun 默认文件夹至 workspace 中
- *
- * @param context
  */
-export async function install (context: ExtensionContext): Promise<void> {
+export async function install (): Promise<void> {
   try {
     const folders = workspace.workspaceFolders
 
@@ -21,6 +20,11 @@ export async function install (context: ExtensionContext): Promise<void> {
         if (folder == null) {
           return
         }
+      }
+
+      const context = Context.get()
+      if (context == null) {
+        return
       }
 
       const sourceUri = context.extensionUri.with({

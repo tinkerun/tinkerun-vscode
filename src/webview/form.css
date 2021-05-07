@@ -1,0 +1,157 @@
+:root {
+    --vscode-settings-textInputBorder: transparent;
+}
+
+html {
+    font-family: var(--vscode-font-family);
+    font-size: var(--vscode-font-size);
+    line-height: 1.4rem;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:disabled {
+    opacity: .7;
+}
+
+input {
+    background-color: var(--vscode-settings-textInputBackground);
+    color: var(--vscode-settings-textInputForeground);
+    border-color: var(--vscode-settings-textInputBorder);
+    border-width: 1px;
+    border-style: solid;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+select:focus,
+input:focus {
+    outline-color: var(--vscode-focusBorder);
+}
+
+select {
+    -webkit-appearance: none;
+    border-width: 1px;
+    border-style: solid;
+    background-color: var(--vscode-settings-dropdownBackground);
+    color: var(--vscode-settings-dropdownForeground);
+    border-color: var(--vscode-settings-dropdownBorder);
+}
+
+.btn {
+    border-radius: 0;
+    padding: 2px 14px;
+    text-align: center;
+    width: auto;
+}
+
+.btn-primary {
+    color: var(--vscode-button-foreground);
+    background-color: var(--vscode-button-background);
+}
+
+.btn-primary:focus,
+.btn-primary:enabled:hover {
+    background-color: var(--vscode-button-hoverBackground);
+}
+
+.btn-secondary {
+    color: var(--vscode-button-secondaryForeground);
+    background-color: var(--vscode-button-secondaryBackground);
+}
+
+.btn-secondary:focus,
+.btn-secondary:enabled:hover {
+    background-color: var(--vscode-button-secondaryHoverBackground);
+}
+
+.field {
+    border: 1px solid transparent;
+    padding: 1rem;
+}
+
+.field:hover {
+    background-color: var(--vscode-notebook-rowHoverBackground);
+}
+
+.field:focus,
+.field:focus-within {
+    border-color: var(--vscode-panel-border);
+    background-color: var(--vscode-settings-focusedRowBackground);
+}
+
+.field-label {
+    font-weight: bold;
+    color: var(--vscode-settings-headerForeground);
+}
+
+.field-description {
+    color: var(--vscode-descriptionForeground);
+}
+
+.field-checkbox-container,
+.field-select-container,
+.field-input-container {
+    margin-top: 0.5rem;
+}
+
+.field-input-container {
+    min-width: 200px;
+    width: auto;
+    display: inline-block;
+}
+
+.field-select,
+.field-input {
+    outline: none;
+    display: block;
+    width: 100%;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.field-select-container {
+    position: relative;
+    width: 320px;
+}
+
+.field-select-arrow {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 6px;
+    margin: auto;
+    pointer-events: none;
+}
+
+.field-checkbox-container {
+    display: flex;
+    user-select: none;
+    cursor: pointer;
+    color: var(--vscode-descriptionForeground);
+}
+
+.field-checkbox {
+    flex-shrink: 0;
+    height: 18px;
+    width: 18px;
+    background-color: var(--vscode-settings-checkboxBackground);
+    border: 1px solid var(--vscode-settings-checkboxBorder);
+    border-radius: 3px;
+    margin-right: 9px;
+    margin-left: 0;
+    padding: 0;
+    color: var(--vscode-settings-checkboxForeground)
+}
+
+.section {
+    padding: 1rem;
+}
