@@ -9,6 +9,7 @@ The missing way of running tinker in Visual Studio Code, inspired by [Tinkerwell
 - 🖖 never leave VSCode
 - 🚀 speed in docker, ssh
 - 🥶 deadly simple, you are just creating the PHP files
+- 📄 [Form Mode](./FORM_MODE.md)
 
 If you are creating awesome [Laravel](https://laravel.com) project with VSCode, you will never miss it.
 
