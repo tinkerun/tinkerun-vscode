@@ -2,7 +2,7 @@
 
 the Form Mode allow you run your Tinker code with form.
 
-![image](https://user-images.githubusercontent.com/1612364/117529573-d1be4000-b00a-11eb-8fc6-1e2998b6de2a.png)
+![form-mode](https://user-images.githubusercontent.com/1612364/117542834-d6a3e380-b04c-11eb-93c6-5974177d6ee2.gif)
 
 
 ## How To Use
