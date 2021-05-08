@@ -1,3 +1,7 @@
+## v0.2.0 - 08 May,2021
+
+support [Form Mode](./FORM_MODE.md)
+
 ## v0.1.4 - 30 Apr,2021
 
 keep the newlines
