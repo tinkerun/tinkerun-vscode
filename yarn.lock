@@ -4240,10 +4240,10 @@ performance-now@^2.1.0:
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-php-form@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/php-form/-/php-form-0.0.4.tgz#328e33f10a1e92819e84f9ac035f69ae3b49b505"
-  integrity sha512-6FL7N/YxrgpB03aRfy+g6wdFohDP6nmwuqv4Bk1Uon66zVdgSLMMyKFAJsboMC4D6lonCYTCtMaNMb979M2W9w==
+php-form@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/php-form/-/php-form-0.0.5.tgz#37b1a869501a14f37126e83ba33078287c98963c"
+  integrity sha512-J1emJuAdEbCKuO02oZVefBrXnh3ph0mQtLS9v0DB1Utj4x5drWP2gC/yc671gkjUZgjq/xf8bnTYhzqVOf52LQ==
 
 picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3:
   version "2.2.3"

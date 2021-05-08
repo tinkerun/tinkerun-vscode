@@ -132,6 +132,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "php-form": "^0.0.4"
+    "php-form": "^0.0.5"
   }
 }

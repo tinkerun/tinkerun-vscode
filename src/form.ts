@@ -69,7 +69,6 @@ export class Form {
   async phpForm (): Promise<PHPForm> {
     if (this._phpForm == null) {
       this._phpForm = await instance(
-        '',
         workspace.getConfiguration('tinkerun.form').get('prefix')
       )
     }
