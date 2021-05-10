@@ -108,7 +108,17 @@ export class Form {
 </head>
 <body>
     <main x-data="formData">
-      <template x-for="(field, index) in fields" :key="'fields_' + index">
+      <template x-if="fields.length <= 0">
+        <div class="section">
+          <p>
+            No fields
+          </p>
+          <p class="mt-2">
+            Check the <a class="underline" href="https://github.com/tinkerun/tinkerun-vscode/blob/master/FORM_MODE.md">Form Mode Doc</a> to learn how to use it
+          </p>
+        </div>
+      </template>
+      <template x-if="fields.length > 0" x-for="(field, index) in fields" :key="'fields_' + index">
         <div class="field">
           <div class="field-label" x-text="field.label || field.name"></div>
           <template x-if="field.description && field.type !== 'checkbox'">

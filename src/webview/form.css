@@ -155,3 +155,11 @@ select {
 .section {
     padding: 1rem;
 }
+
+.underline {
+    text-decoration-line: underline;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
