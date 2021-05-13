@@ -1,7 +1,7 @@
 {
   "name": "tinkerun-vscode",
   "displayName": "Tinkerun",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "publisher": "tinkerun",
   "description": "A Missing way of running Tinker in Visual Studio Code",
   "keywords": [
