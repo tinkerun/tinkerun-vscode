@@ -1,3 +1,10 @@
+## v0.2.2 - 08 May,2021
+
+support form mode with one line
+
+![image](https://user-images.githubusercontent.com/1612364/118070182-039f2000-b3d8-11eb-9486-2f9207364345.png)
+
+
 ## v0.2.0 - 08 May,2021
 
 support [Form Mode](./FORM_MODE.md)
