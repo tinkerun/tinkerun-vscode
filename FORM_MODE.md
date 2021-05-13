@@ -7,26 +7,16 @@ the Form Mode allow you run your Tinker code with form.
 
 ## How To Use
 
-Write the Tinker code normally, and name the variable that needs to be converted into a form with a [prefix](#prefix), and the variable needs to be an array structure with special fields.
+Write the Tinker code normally, and name the variable that needs to be converted into a form with a [prefix](#prefix). 
 
 for example:
 
 ```php
-$form_email = [
-    'label' => 'Email',
-    'description' => 'the email address of an account',
-    'value' => 'pmoore@example.net',
-];
+$form_email = 'pmoore@example.net';
+$form_password = 'secret';
 
-$form_password = [
-    'label' => 'Password',
-    'description' => 'some strong password',
-    'value' => 'secret',
-];
-
-$user = User::where('email', $form_email['value'])->first();
-
-$user->password = bcrypt($form_password['value']);
+$user = User::where('email', $form_email)->first();
+$user->password = bcrypt($form_password);
 
 $user->save();
 
@@ -35,7 +25,7 @@ $user;
 
 the code will create two text fields in the form
 
-![image](https://user-images.githubusercontent.com/1612364/117530417-a722b600-b00f-11eb-99d6-1ce8d2989b7f.png)
+![image](https://user-images.githubusercontent.com/1612364/118069408-b66e7e80-b3d6-11eb-96f7-f5d0898a0fb4.png)
 
 ## Fields
 
@@ -56,6 +46,17 @@ $form_email = [
 
 - `value` is required
 - `type` can be `text` `email` `number` etc, it’s same with `<input/>` type property
+
+also you can just use
+```php
+$form_email = 'user@example.com';
+```
+is same as 
+```php
+$form_email = [
+    'value' => 'user@example.com',
+];
+```
 	 
 ### `select` field
 
