@@ -89,6 +89,23 @@ The default shortcut is `CTRL+r`, also you can bind yours:
 
 Press `Enter` in the Tinkerun result panel, and your missing Tinker back.
 
+### Support for WSL
+
+Add support for WSL, please add `export TERM=xterm` to commands in .tinkerun/tinkerun.json.
+
+For example :
+
+```js
+{
+  "connections": [
+    {
+      "name": "dev",
+      "command": "export TERM=xterm && php artisan tinker"
+    }
+  ]
+}
+```
+
 ## Ask for help
 
 If the troubleshooting guides did not resolve the issue, please reach out to me by [filing an issue](https://github.com/tinkerun/tinkerun-vscode/issues/new), [starting a GitHub discussion](https://github.com/tinkerun/tinkerun-vscode/discussions/new)
